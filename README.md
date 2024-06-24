@@ -1,6 +1,8 @@
 # Job Board Platform
-This is a Laravel-based job board platform designed to connect employers with job seekers. The platform includes a variety of features to streamline job posting and application processes while ensuring robust access control and search capabilities.
-
+This project involves building a Laravel-based job board platform where employers can post job
+listings and job seekers can apply. It includes registration, authentication, search functionality,
+and efficient data management with forms and storage. Additionally, it incorporates simple  test-driven
+development for robust and reliable cod
 ## Features
 - General Architecture for a Job Platform : The platform includes functionalities for employers to post job listings and job seekers to apply for them. The architecture supports various 
   features like tagging and more
