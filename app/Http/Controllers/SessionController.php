@@ -32,7 +32,7 @@ class SessionController extends Controller
         return redirect('/')->with('success', 'You are now logged in!');
 
     }
-    public function destroy(string $id)
+    public function destroy()
     {
         Auth::logout();
         return redirect('/login');

@@ -25,11 +25,11 @@ class RegisterController extends Controller
         ]);
         $employerAttributes = $request->validate([
             'employer' => ['required', 'string', 'max:255'],
-            'logo' => ['required',File::types(['jpg', 'jpeg', 'png'])],
+            'logo' => ['required', File::types(['png', 'jpg', 'webp','jpeg'])],
         ]);
        $user = User::create($userAttributes);
 
-        $logoPath=$request->logo->store('logos');
+       $logoPath = $request->logo->store('logos');
 
         $user->employer()->create([
             'name' => $employerAttributes['employer'],

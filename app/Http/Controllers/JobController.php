@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\Tag;
-use App\Http\Requests\StoreJobRequest;
-use App\Http\Requests\UpdateJobRequest;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
 
     public function index()
     {
-        $jobs =Job::all()->groupBy('featured');
+        $jobs =Job::latest()->get()->groupBy('featured');
 
         return view('jobs.index',[
-            'featuredJobs'=>$jobs[0],
-            'jobs'=>$jobs[1],
+            'jobs'=>$jobs[0],
+            'featuredJobs'=>$jobs[1],
             'tags'=>Tag::all()
         ]);
     }
@@ -24,36 +26,30 @@ class JobController extends Controller
 
     public function create()
     {
-        //
+        return view('jobs.create');
     }
 
 
-    public function store(StoreJobRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
+      $attributes = $request->validate([
+            'title' => ['required'],
+            'salary'=> ['required'],
+            'location'=> ['required'],
+            'schedule' => ['required', Rule::in(['Full Time', 'Part Time'])],
+            'url' => ['required','url'],
+            'tags'=>['nullable']
+        ]);
+        $attributes['featured']=$request->has('featured');
 
+        $job =Auth::user()->employer->jobs()->create(Arr::except($attributes,'tags'));
 
-    public function show(Job $job)
-    {
-        //
-    }
+        if ($attributes['tags'] ?? false) {
+            foreach(explode(',',$attributes['tags']) as $tag) {
+                $job->tag($tag);
+            }
+        }
 
-
-    public function edit(Job $job)
-    {
-        //
-    }
-
-
-    public function update(UpdateJobRequest $request, Job $job)
-    {
-        //
-    }
-
-
-    public function destroy(Job $job)
-    {
-
+        return redirect('/');
     }
 }
