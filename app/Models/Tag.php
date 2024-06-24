@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Tag extends Model
 {
     use HasFactory;
-    public function Job() : BelongsToMany
+    public function jobs() : BelongsToMany
     {
         return $this->belongsToMany(Job::class);
     }
